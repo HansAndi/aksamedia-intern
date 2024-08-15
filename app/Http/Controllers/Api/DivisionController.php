@@ -14,7 +14,7 @@ class DivisionController extends Controller
      */
     public function index()
     {
-        $divisions = Division::paginate(10);
+        $divisions = Division::filter(request('name'))->paginate(10);
 
         return new DivisionCollection($divisions);
     }

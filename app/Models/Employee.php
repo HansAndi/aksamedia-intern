@@ -18,6 +18,17 @@ class Employee extends Model
         'position',
     ];
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['name'] ?? null, function ($query, $name) {
+            $query->where('name', 'like', '%'.$name.'%');
+        });
+
+        $query->when($filters['division_id'] ?? null, function ($query, $division_id) {
+            $query->where('division_id', $division_id);
+        });
+    }
+
     public function division()
     {
         return $this->belongsTo(Division::class);

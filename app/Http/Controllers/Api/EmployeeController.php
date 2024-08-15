@@ -17,7 +17,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $divisions = Employee::with('division')->paginate(10);
+        $divisions = Employee::filter(request(['name', 'division_id']))->with('division')->paginate(10);
 
         return new EmployeeCollection($divisions);
     }
@@ -33,7 +33,7 @@ class EmployeeController extends Controller
             $validated['image'] = $request->file('image')->store('employee', 'public');
         }
 
-        $employee = Employee::create($validated);
+        Employee::create($validated);
 
         return response()->json([
             'status' => 'status',

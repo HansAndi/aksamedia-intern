@@ -14,8 +14,16 @@ class Division extends Model
         'name',
     ];
 
+    public function scopeFilter($query, $search)
+    {
+        $query->when($search ?? null, function ($query, $search) {
+            $query->where('name', 'like', '%'.$search.'%');
+        });
+    }
+    
     public function employees()
     {
         return $this->hasMany(Employee::class);
     }
+
 }
